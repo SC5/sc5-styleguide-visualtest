@@ -4,7 +4,8 @@
   "description": "Gulp plugin for automatic visual testing SC5 StyleGuide components",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "babel -d dist/ src/",
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/SC5/sc5-styleguide-visualtest/issues"
   },
-  "homepage": "https://github.com/SC5/sc5-styleguide-visualtest#readme"
+  "homepage": "https://github.com/SC5/sc5-styleguide-visualtest#readme",
+  "devDependencies": {
+    "babel": "^5.8.23"
+  }
 }
