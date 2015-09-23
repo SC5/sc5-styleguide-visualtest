@@ -21,7 +21,7 @@ module.exports.test = function(options) {
   var test = function(file, enc, callback) {
 
     var gemini = new Gemini({
-        rootUrl: 'http://127.0.0.1:8001/#',
+        rootUrl: options.rootUrl,
         projectRoot: './',
         gridUrl: 'http://127.0.0.1:4444/wd/hub',
         screenshotsDir: options.gridScreenshotsDir,
@@ -77,7 +77,7 @@ module.exports.gather = function(options) {
   var gather = function(file, enc, callback) {
 
     var gemini = new Gemini({
-        rootUrl: options.rootUrl || 'http://127.0.0.1:8001/#',
+        rootUrl: options.rootUrl,
         projectRoot: './',
         screenshotsDir: options.gridScreenshotsDir,
         gridUrl: 'http://127.0.0.1:4444/wd/hub',
