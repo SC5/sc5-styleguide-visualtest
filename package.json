@@ -2,7 +2,7 @@
   "name": "sc5-styleguide-visualtest",
   "version": "1.0.0",
   "description": "Gulp plugin for automatic visual testing SC5 StyleGuide components",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "compile": "babel -d dist/ src/",
     "prepublish": "npm run compile"
