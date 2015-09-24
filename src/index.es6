@@ -13,7 +13,7 @@ var runPhantom = function() {
     phantomProcess.stdout.pipe(process.stdout);
 };
 
-function getGenimi = function(options) {
+var getGenimi = function(options) {
     var gemini = new Gemini({
         rootUrl: options.rootUrl,
         projectRoot: './',
