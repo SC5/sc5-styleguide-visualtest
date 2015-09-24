@@ -2,6 +2,8 @@
 
 A gulp plugin for automatic visual testing between different versions of components in SC5 StyleGuide.
 
+The screenshots are taken in Chrome via PhantomJS.
+
 ## Technical requirements
 
 You need to have PhantomJS installed. After that:
@@ -52,7 +54,7 @@ this folder you will get:
 Store the configuration files and the screenshots in teh repository. But don't forget to exclude from npm and bower
 package if you provide it.
 
-## Runnin tests
+## Running tests
 Tests will compare the grid screenshots with the current view of your Style Guide.
 
 ```js
