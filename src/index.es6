@@ -26,6 +26,7 @@ var getGenimi = function(options) {
           }
         },
         windowSize: '1024x768'
+    });
 }
 
 module.exports.test = function(options) {
