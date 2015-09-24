@@ -13,13 +13,7 @@ var runPhantom = function() {
     phantomProcess.stdout.pipe(process.stdout);
 };
 
-module.exports.test = function(options) {
-
-  // Gemini does not configurate report dir
-  options.reportDir = 'gemini-report';
-
-  var test = function(file, enc, callback) {
-
+function getGenimi = function(options) {
     var gemini = new Gemini({
         rootUrl: options.rootUrl,
         projectRoot: './',
@@ -32,7 +26,16 @@ module.exports.test = function(options) {
           }
         },
         windowSize: '1024x768'
-    });
+}
+
+module.exports.test = function(options) {
+
+  // Gemini does not configurate report dir
+  options.reportDir = 'gemini-report';
+
+  var test = function(file, enc, callback) {
+
+    var gemini = getGemini(options);
 
     // Run PhantomJs
     runPhantom();
@@ -76,19 +79,7 @@ module.exports.gather = function(options) {
 
   var gather = function(file, enc, callback) {
 
-    var gemini = new Gemini({
-        rootUrl: options.rootUrl,
-        projectRoot: './',
-        screenshotsDir: options.gridScreenshotsDir,
-        gridUrl: 'http://127.0.0.1:4444/wd/hub',
-        browsers: {
-          chrome: {
-            browserName: 'chrome',
-            version: '37.0'
-          }
-        },
-        windowSize: '1024x768'
-    });
+    var gemini = getGemini(options);
 
     // Run PhantomJs
     runPhantom();
