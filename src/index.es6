@@ -57,19 +57,7 @@ module.exports.test = function(options) {
     // TODO: remake with promises
     setTimeout(runTests, 2000);
 
-    // Reads all the tests
-    /*
-    gemini.readTests(['./tests/visual/'])
-      .done(root => {
-        root.children.forEach(suite => {
-        })
-      })
-    */
   }
-
-  // Gets all the pages
-  /*
-  */
 
   return through.obj(test);
 
