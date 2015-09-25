@@ -1,6 +1,6 @@
 {
   "name": "sc5-styleguide-visualtest",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Gulp plugin for automatic visual testing SC5 StyleGuide components",
   "main": "dist/index.js",
   "scripts": {
