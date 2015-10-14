@@ -19,7 +19,7 @@
     "styleguide"
   ],
   "author": "Varya Stepanova <mail@varya.me>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/SC5/sc5-styleguide-visualtest/issues"
   },
