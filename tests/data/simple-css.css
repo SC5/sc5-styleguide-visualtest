@@ -1,0 +1,15 @@
+/*
+Simple block
+markup:
+<div class="simple-block"></div>
+
+Styleguide 1
+*/
+
+.simple-block {
+  width: 100px;
+  height: 100px;
+  background: red;
+  border-width: 1px;
+  border-color: green;
+}
