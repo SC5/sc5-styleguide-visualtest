@@ -1,4 +1,5 @@
 node_modules
 dist
 
-tests/data/styleguide
+tests/data/styleguide/
+tests/tmp/
