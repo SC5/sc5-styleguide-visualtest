@@ -46,3 +46,12 @@ gulp.task("test:visual:update", ["test:visual:config"], function() {
       rootUrl: 'http://localhost:3000/'
     }));
 });
+
+gulp.task("visual:test", ["styleguide"], function(done){
+  gulp.src(styleguidePath, { read: false })
+    .pipe(sc5StyleguideGemini.test({
+      configDir: testDirPath + '/config', // Path to configuration and tests
+      gridScreenshotsDir: testDirPath + '/grid-screenshots',
+      rootUrl: 'http://localhost:3000/'
+    }));
+});

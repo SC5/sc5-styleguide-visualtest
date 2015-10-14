@@ -3,3 +3,4 @@ dist
 
 tests/data/styleguide/
 tests/tmp/
+gemini-report/
