@@ -27,7 +27,7 @@ gulp.task('styleguide:applystyles', function() {
 
 gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 
-gulp.task("test:visual:config", ["styleguide"], function() {
+gulp.task("test:visual:config", function() {
   gulp.src(styleguidePath, { read: false })
     .pipe(sc5StyleguideGemini.configure({
       excludePages: [
@@ -47,7 +47,7 @@ gulp.task("test:visual:update", ["test:visual:config"], function() {
     }));
 });
 
-gulp.task("visual:test", ["styleguide"], function(done){
+gulp.task("test:visual", function(done){
   gulp.src(styleguidePath, { read: false })
     .pipe(sc5StyleguideGemini.test({
       configDir: testDirPath + '/config', // Path to configuration and tests
@@ -55,3 +55,5 @@ gulp.task("visual:test", ["styleguide"], function(done){
       rootUrl: 'http://localhost:3000/'
     }));
 });
+
+gulp.task("test", ["styleguide", "test:visual:update", "test:visual"]);
