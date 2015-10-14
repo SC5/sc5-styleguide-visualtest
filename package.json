@@ -25,7 +25,10 @@
   },
   "homepage": "https://github.com/SC5/sc5-styleguide-visualtest#readme",
   "devDependencies": {
-    "babel": "^5.8.23"
+    "babel": "^5.8.23",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "sc5-styleguide": "^0.3.37"
   },
   "dependencies": {
     "fs-extra": "^0.24.0",
