@@ -74,7 +74,8 @@ gulp.task("visual:test", function(done){
     .pipe(sc5StyleguideGemini.test({
       configDir: './tests/visual/config',
       gridScreenshotsDir: './tests/visual/grid-screenshots',
-      rootUrl: 'http://127.0.0.1:8000/#'
+      rootUrl: 'http://127.0.0.1:8000/#',
+      sections: options.section
     }));
 });
 ```
@@ -117,6 +118,12 @@ This is how different problems look when spotted:
 
 ```
 gulp  test:visual:update --section 1 --section 4.5
+```
+
+### Run tests for particular sections (and the subsections) only
+
+```
+gulp  test:visual --section 1 --section 3.3
 ```
 
 ### Update the list of pages with particular sections (and their sub-sections)

@@ -72,7 +72,8 @@ gulp.task("test:visual", function(done){
     .pipe(sc5StyleguideGemini.test({
       configDir: testDirPath + '/config', // Path to configuration and tests
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
-      rootUrl: 'http://localhost:3000/'
+      rootUrl: 'http://localhost:3000/',
+      sections: options.section
     }));
 });
 

@@ -34,10 +34,35 @@ var getGemini = function(options) {
     });
 }
 
+var normalize = function (options) {
+  if (options.sections && Object.prototype.toString.call(options.sections) !== '[object Array]') {
+    options.sections = [options.sections];
+  }
+  return options;
+}
+
+var getTestPaths  = function (options) {
+      if (options.sections) {
+        // For the given sections
+        var tests = options.sections;
+      } else {
+        // For all the sections
+        var tests = require(path.resolve(options.configDir, './pages-list.js'));
+      }
+
+      var testPaths = tests.map((sec) => {
+        return path.resolve(options.configDir, './test_' + sec + '.js');
+      });
+      return testPaths;
+
+}
+
 module.exports.test = function(options) {
 
   // Gemini does not configurate report dir
   options.reportDir = 'gemini-report';
+
+  options = normalize(options);
 
   var test = function(file, enc, callback) {
 
@@ -51,7 +76,10 @@ module.exports.test = function(options) {
 
     // Run tests and create reports
     var runTests = function() {
-      var runTestsPromise = gemini.test([path.resolve(options.configDir, './basic-test.js')], {
+
+      var testPaths = getTestPaths(options);
+
+      var runTestsPromise = gemini.test(testPaths, {
         reporters: ['html', 'flat'],
         tempDir: options.reportDir
       });
@@ -69,13 +97,6 @@ module.exports.test = function(options) {
 
 }
 
-var normalize = function (options) {
-  if (options.sections && Object.prototype.toString.call(options.sections) !== '[object Array]') {
-    options.sections = [options.sections];
-  }
-  return options;
-}
-
 module.exports.gather = function(options) {
 
   options = normalize(options);
@@ -88,21 +109,13 @@ module.exports.gather = function(options) {
     runPhantom();
 
     // Clean screenshot
-    fs.removeSync(options.gridScreenshotsDir);
+    if (!options.sections) { // only for full replacement
+      fs.removeSync(options.gridScreenshotsDir);
+    }
 
     var runGather = function() {
 
-      if (options.sections) {
-        // For the given sections
-        var tests = options.sections;
-      } else {
-        // For all the sections
-        var tests = require(path.resolve(options.configDir, './pages-list.js'));
-      }
-
-      var testPaths = tests.map((sec) => {
-        return path.resolve(options.configDir, './test_' + sec + '.js');
-      });
+      var testPaths = getTestPaths(options);
 
       gemini.gather(testPaths, {
         reporters: ['flat'],
