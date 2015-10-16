@@ -42,19 +42,27 @@ var normalize = function (options) {
 }
 
 var getTestPaths  = function (options) {
-      if (options.sections) {
-        // For the given sections
-        var tests = options.sections;
-      } else {
-        // For all the sections
-        var tests = require(path.resolve(options.configDir, './pages-list.js'));
-      }
+  var allTests = require(path.resolve(options.configDir, './pages-list.js'));
 
-      var testPaths = tests.map((sec) => {
-        return path.resolve(options.configDir, './test_' + sec + '.js');
+  if (options.sections) {
+    // For the given sections
+    var tests = [];
+    allTests.forEach((section) => {
+      options.sections.forEach((sectionToInclude) => {
+        if (section.startsWith(sectionToInclude)) {
+          tests.push(section);
+        }
       });
-      return testPaths;
+    });
+  } else {
+    // For all the sections
+    var tests = allTests;
+  }
 
+  var testPaths = tests.map((sec) => {
+    return path.resolve(options.configDir, './test_' + sec + '.js');
+  });
+  return testPaths;
 }
 
 module.exports.test = function(options) {
@@ -148,7 +156,7 @@ module.exports.configure = function(options) {
         styleguideData.sections.forEach(section => {
           options.sections.forEach(sectionToInclude => {
             if (section.reference.startsWith(sectionToInclude)) {
-                res.push(section)
+              res.push(section)
             }
           });
         });
