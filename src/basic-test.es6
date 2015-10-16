@@ -3,10 +3,6 @@ var gemini = require('gemini');
 var examples = "<% EXAMPLES %>";
 
 var pages = [];
-pages.push({
-  'name': 'index',
-  url: '/styleguide/#'
-});
 examples.forEach(function(example) {
   pages.push({
     'name': example,

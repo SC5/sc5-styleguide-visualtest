@@ -78,6 +78,8 @@ var normalize = function (options) {
 
 module.exports.gather = function(options) {
 
+  options = normalize(options);
+
   var gather = function(file, enc, callback) {
 
     var gemini = getGemini(options);
@@ -89,7 +91,20 @@ module.exports.gather = function(options) {
     fs.removeSync(options.gridScreenshotsDir);
 
     var runGather = function() {
-      gemini.gather([path.resolve(options.configDir, './basic-test.js')], {
+
+      if (options.sections) {
+        // For the given sections
+        var tests = options.sections;
+      } else {
+        // For all the sections
+        var tests = require(path.resolve(options.configDir, './pages-list.js'));
+      }
+
+      var testPaths = tests.map((sec) => {
+        return path.resolve(options.configDir, './test_' + sec + '.js');
+      });
+
+      gemini.gather(testPaths, {
         reporters: ['flat'],
       })
       .done(result => {
@@ -108,7 +123,7 @@ module.exports.gather = function(options) {
 module.exports.configure = function(options) {
 
 
- options = normalize(options);
+  options = normalize(options);
 
   var configure = function(file, enc, callback) {
     var getPages = function(path) {
@@ -181,7 +196,7 @@ module.exports.configure = function(options) {
         base: path.join(__dirname),
         cwd: __dirname,
         path: path.join(__dirname, `./test_${page}.js`),
-        contents: new Buffer(testSource.replace('"<% EXAMPLES %>', `["${page}"]`))
+        contents: new Buffer(testSource.replace('"<% EXAMPLES %>"', `["${page}"]`))
         });
         this.push(file);
     });

@@ -21,6 +21,14 @@ It is nice to have a Gulp task for it because you will need to remake the grid s
 var gulp = require("gulp");
 
 var sc5StyleguideGemini = require('sc5-styleguide-visualtest');
+var minimist = require('minimist');
+
+var knownOptions = {
+  'string': 'section',
+  'default': { 'section': false }
+};
+
+var options = minimist(process.argv.slice(2), knownOptions);
 
 gulp.task("test:visual:config", function() {
   gulp.src('path/to/styleguide/outpurDir', { read: false })
@@ -40,7 +48,8 @@ gulp.task("test:visual:update", ["test:visual:config"], function() {
     .pipe(sc5StyleguideGemini.gather({
       configDir: './tests/visual/config', // Path to configuration and tests
       gridScreenshotsDir: './tests/visual/grid-screenshots',
-      rootUrl: 'http://mycompany.com/styleguide'
+      rootUrl: 'http://mycompany.com/styleguide',
+      sections: options.section
     }));
 });
 ```
@@ -103,6 +112,12 @@ This is how different problems look when spotted:
 ![](images/wrong-height.png)
 
 ## Development flow
+
+### Update the reference images for particular sections (and their subsections)
+
+```
+gulp  test:visual:update --section 1 --section 4.5
+```
 
 ### Update the list of pages with particular sections (and their sub-sections)
 
