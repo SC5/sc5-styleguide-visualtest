@@ -128,6 +128,8 @@ gulp  test:visual --section 1 --section 3.3
 
 ### Update the list of pages with particular sections (and their sub-sections)
 
+This almost never needed as the configuration automatically updates when reference screenshots are gathered
+
 ```
 gulp  test:visual:config --section 2 --section 4
 ```
