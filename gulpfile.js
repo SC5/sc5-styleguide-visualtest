@@ -3,6 +3,8 @@ var gulp = require("gulp");
 var sc5StyleguideGemini = require('./');
 var styleguide = require('sc5-styleguide');
 var concat = require('gulp-concat');
+var minimist = require('minimist');
+
 
 var testDirPath = './tests/tmp';
 var styleguideSource = './tests/data/*.css';
@@ -27,13 +29,22 @@ gulp.task('styleguide:applystyles', function() {
 
 gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 
+var knownOptions = {
+  'string': 'section',
+  'default': { 'section': false }
+};
+
+var options = minimist(process.argv.slice(2), knownOptions);
+
 gulp.task("test:visual:config", function() {
   gulp.src(styleguidePath, { read: false })
     .pipe(sc5StyleguideGemini.configure({
       excludePages: [
         '2.2.1', // Back icon is not shown in prod
         '6.1-2', // picture is not loaded in prod
-      ]
+      ],
+      sections: options.section,
+      currentSections: require(testDirPath + '/config/pages-list.js')
     }))
     .pipe(gulp.dest(testDirPath + '/config'))  // Path to configuration and tests
 });

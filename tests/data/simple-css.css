@@ -1,5 +1,6 @@
 /*
 Simple block
+
 markup:
 <div class="simple-block"></div>
 
@@ -13,3 +14,21 @@ Styleguide 1
   border-width: 1px;
   border-color: green;
 }
+
+/*
+Second block
+
+markup:
+<div class="simple-block"></div>
+
+Styleguide 2
+*/
+
+/*
+Third block
+
+markup:
+<div class="simple-block"></div>
+
+Styleguide 3
+*/

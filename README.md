@@ -28,7 +28,9 @@ gulp.task("test:visual:config", function() {
       excludePages: [
         '2.2.1', // Back icon is not shown in prod
         '6.1-2', // picture is not loaded in prod
-      ]
+      ],
+      sections: options.section,
+      currentSections: require(testDirPath + '/config/pages-list.js')
     }))
     .pipe(gulp.dest('./tests/visual/config'))  // Path to configuration and tests
 });
@@ -99,3 +101,11 @@ This is how different problems look when spotted:
 
 **Wrong height**
 ![](images/wrong-height.png)
+
+## Development flow
+
+### Update the list of pages with particular sections (and their sub-sections)
+
+```
+gulp  test:visual:config --section 2 --section 4
+```
