@@ -42,17 +42,19 @@ var normalize = function (options) {
 }
 
 var getTestPaths  = function (options) {
-  var allTests = require(path.resolve(options.configDir, './pages-list.js'));
+  var allTests = require(path.resolve(process.cwd(), options.configDir, './pages-list.js'));
 
   if (options.sections) {
     // For the given sections
-    var tests = [];
+    var tests = options.sections;
     allTests.forEach((section) => {
       options.sections.forEach((sectionToInclude) => {
         if (section.startsWith(sectionToInclude)) {
           tests.push(section);
         }
       });
+      tests.sort();
+      tests = removeDuplicates(tests);
     });
   } else {
     // For all the sections
@@ -111,42 +113,7 @@ module.exports.gather = function(options) {
 
   var gather = function(file, enc, callback) {
 
-    var gemini = getGemini(options);
-
-    // Run PhantomJs
-    runPhantom();
-
-    // Clean screenshot
-    if (!options.sections) { // only for full replacement
-      fs.removeSync(options.gridScreenshotsDir);
-    }
-
-    var runGather = function() {
-
-      var testPaths = getTestPaths(options);
-
-      gemini.gather(testPaths, {
-        reporters: ['flat'],
-      })
-      .done(result => {
-        phantomProcess.kill('SIGTERM');
-      });
-    }
-    // TODO: remake with promises
-    setTimeout(runGather, 2000);
-
-  };
-
-  return through.obj(gather);
-
-};
-
-module.exports.configure = function(options) {
-
-
-  options = normalize(options);
-
-  var configure = function(file, enc, callback) {
+    // Provide configuration
     var getPages = function(path) {
       var styleguideData = JSON.parse(fs.readFileSync(`${path}/styleguide.json`));
       var examples = [];
@@ -190,9 +157,18 @@ module.exports.configure = function(options) {
 
     var pages = getPages(styleguidePath);
 
+    var currentSections = (function(options) {
+      var pagesListPath = path.join(process.cwd(), options.configDir, './pages-list.js');
+      if (fs.existsSync(pagesListPath)) {
+        return require(pagesListPath);
+      } else {
+        return [];
+      }
+    })(options);
+
     // If sections are define, ADD them into existing file
-    if (options.sections && options.currentSections) {
-      pages = options.currentSections.concat(pages);
+    if (options.sections) {
+      pages = currentSections.concat(pages);
       pages = removeDuplicates(pages);
       pages.sort();
     } else {
@@ -222,9 +198,32 @@ module.exports.configure = function(options) {
         this.push(file);
     });
 
-    callback();
+    var gemini = getGemini(options);
+
+    // Run PhantomJs
+    runPhantom();
+
+    // Clean screenshot
+    if (!options.sections) { // only for full replacement
+      fs.removeSync(options.gridScreenshotsDir);
+    }
+
+    var runGather = function() {
+
+      var testPaths = getTestPaths(options);
+
+      gemini.gather(testPaths, {
+        reporters: ['flat'],
+      })
+      .done(result => {
+        phantomProcess.kill('SIGTERM');
+      });
+    }
+    // TODO: remake with promises
+    setTimeout(runGather, 2000);
+
   };
 
-  return through.obj(configure);
+  return through.obj(gather);
 
 };

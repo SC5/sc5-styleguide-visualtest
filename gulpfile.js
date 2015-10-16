@@ -4,7 +4,6 @@ var sc5StyleguideGemini = require('./');
 var styleguide = require('sc5-styleguide');
 var concat = require('gulp-concat');
 var minimist = require('minimist');
-var fs = require('fs-extra');
 
 var testDirPath = './tests/tmp';
 var styleguideSource = './tests/data/*.css';
@@ -34,37 +33,21 @@ var knownOptions = {
   'default': { 'section': false }
 }
 
-var currentList = function() {
-  var currentSections;
-  if (fs.existsSync(testDirPath + '/config/pages-list.js')) {
-    currentSections = require(testDirPath + '/config/pages-list.js');
-  }
-  return currentSections;
-}
-
 var options = minimist(process.argv.slice(2), knownOptions);
 
-gulp.task("test:visual:config", function() {
+gulp.task("test:visual:update", function() {
   gulp.src(styleguidePath, { read: false })
-    .pipe(sc5StyleguideGemini.configure({
+    .pipe(sc5StyleguideGemini.gather({
+      configDir: testDirPath + '/config', // Path to configuration and tests
       excludePages: [
         '2.2.1', // Back icon is not shown in prod
         '6.1-2', // picture is not loaded in prod
       ],
-      sections: options.section,
-      currentSections: currentList()
-    }))
-    .pipe(gulp.dest(testDirPath + '/config'))  // Path to configuration and tests
-});
-
-gulp.task("test:visual:update", ["test:visual:config"], function() {
-  gulp.src(styleguidePath, { read: false })
-    .pipe(sc5StyleguideGemini.gather({
-      configDir: testDirPath + '/config', // Path to configuration and tests
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section
-    }));
+    }))
+    .pipe(gulp.dest(testDirPath + '/config'))  // Path to configuration and tests
 });
 
 gulp.task("test:visual", function(done){

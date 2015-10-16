@@ -30,23 +30,14 @@ var knownOptions = {
 
 var options = minimist(process.argv.slice(2), knownOptions);
 
-gulp.task("test:visual:config", function() {
-  gulp.src('path/to/styleguide/outpurDir', { read: false })
-    .pipe(sc5StyleguideGemini.configure({
-      excludePages: [
-        '2.2.1', // Back icon is not shown in prod
-        '6.1-2', // picture is not loaded in prod
-      ],
-      sections: options.section,
-      currentSections: require(testDirPath + '/config/pages-list.js')
-    }))
-    .pipe(gulp.dest('./tests/visual/config'))  // Path to configuration and tests
-});
-
 gulp.task("test:visual:update", ["test:visual:config"], function() {
   gulp.src('path/to/styleguide/outpurDir', { read: false })
     .pipe(sc5StyleguideGemini.gather({
       configDir: './tests/visual/config', // Path to configuration and tests
+      excludePages: [
+        '2.2.1', // Back icon is not shown in prod
+        '6.1-2', // picture is not loaded in prod
+      ],
       gridScreenshotsDir: './tests/visual/grid-screenshots',
       rootUrl: 'http://mycompany.com/styleguide',
       sections: options.section
@@ -124,12 +115,4 @@ gulp  test:visual:update --section 1 --section 4.5
 
 ```
 gulp  test:visual --section 1 --section 3.3
-```
-
-### Update the list of pages with particular sections (and their sub-sections)
-
-This almost never needed as the configuration automatically updates when reference screenshots are gathered
-
-```
-gulp  test:visual:config --section 2 --section 4
 ```
