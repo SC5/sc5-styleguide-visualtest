@@ -1,6 +1,6 @@
 var gemini = require('gemini');
 
-var examples = require('./pages-list');
+var examples = "<% EXAMPLES %>";
 
 var pages = [];
 pages.push({

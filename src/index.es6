@@ -162,6 +162,9 @@ module.exports.configure = function(options) {
     } else {
       // If sections are not defined, rewrite whole file
     }
+
+    var testSource = fs.readFileSync(path.join(__dirname, './basic-test.js'), "utf8");
+
     var pagesJsonString = JSON.stringify(pages, null, 4);
 
     // list of pages
@@ -173,14 +176,15 @@ module.exports.configure = function(options) {
     });
     this.push(file);
 
-    // basic test
-    var file = new gutil.File({
-      base: path.join(__dirname),
-      cwd: __dirname,
-      path: path.join(__dirname, './basic-test.js'),
-      contents: new Buffer(fs.readFileSync(path.join(__dirname, './basic-test.js')))
+    pages.forEach((page) => {
+        var file = new gutil.File({
+        base: path.join(__dirname),
+        cwd: __dirname,
+        path: path.join(__dirname, `./test_${page}.js`),
+        contents: new Buffer(testSource.replace('"<% EXAMPLES %>', `["${page}"]`))
+        });
+        this.push(file);
     });
-    this.push(file);
 
     callback();
   };

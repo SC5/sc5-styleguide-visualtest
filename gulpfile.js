@@ -4,7 +4,7 @@ var sc5StyleguideGemini = require('./');
 var styleguide = require('sc5-styleguide');
 var concat = require('gulp-concat');
 var minimist = require('minimist');
-
+var fs = require('fs-extra');
 
 var testDirPath = './tests/tmp';
 var styleguideSource = './tests/data/*.css';
@@ -32,7 +32,15 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 var knownOptions = {
   'string': 'section',
   'default': { 'section': false }
-};
+}
+
+var currentList = function() {
+  var currentSections;
+  if (fs.existsSync(testDirPath + '/config/pages-list.js')) {
+    currentSections = require(testDirPath + '/config/pages-list.js');
+  }
+  return currentSections;
+}
 
 var options = minimist(process.argv.slice(2), knownOptions);
 
@@ -44,7 +52,7 @@ gulp.task("test:visual:config", function() {
         '6.1-2', // picture is not loaded in prod
       ],
       sections: options.section,
-      currentSections: require(testDirPath + '/config/pages-list.js')
+      currentSections: currentList()
     }))
     .pipe(gulp.dest(testDirPath + '/config'))  // Path to configuration and tests
 });
