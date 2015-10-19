@@ -41,8 +41,10 @@ var normalize = function (options) {
   return options;
 }
 
-var getTestPaths  = function (options) {
-  var allTests = require(path.resolve(process.cwd(), options.configDir, './pages-list.js'));
+var getTestPaths  = function (options, allTests) {
+  if (!allTests) {
+    var allTests = require(path.resolve(process.cwd(), options.configDir, './pages-list.js'));
+  }
 
   if (options.sections) {
     // For the given sections
@@ -210,7 +212,7 @@ module.exports.gather = function(options) {
 
     var runGather = function() {
 
-      var testPaths = getTestPaths(options);
+      var testPaths = getTestPaths(options, pages);
 
       gemini.gather(testPaths, {
         reporters: ['flat'],
