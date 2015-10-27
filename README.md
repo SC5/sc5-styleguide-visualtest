@@ -103,6 +103,35 @@ This is how different problems look when spotted:
 **Wrong height**
 ![](images/wrong-height.png)
 
+## Providing options
+By default the plugin takes screenshots in desktop resolution. However you may provide
+your own options and take screenshots in different configuration.
+
+```js
+gulp.task("visual:test", function(done){
+  gulp.src(styleGuidePath, { read: false })
+    .pipe(visTest.test({
+      configDir: './tests/visual/config',
+      gridScreenshotsDir: './tests/visual/grid-screenshots',
+      rootUrl: 'http://127.0.0.1:8000/#',
+      sections: options.section,
+      geminiOptions: {
+        browsers: {
+          chrome: {
+            browserName: 'chrome',
+            version: '37.0'
+          }
+        },
+        windowSize: '300x600'
+      }
+    }));
+});
+```
+
+Don't forget to use the same `geminiOptions` object in for both gulp tasks.
+
+Check the [full list of settings for Gemini](https://en.bem.info/tools/testing/gemini/config/)
+
 ## Development flow
 
 ### Update the reference images for particular sections (and their subsections)

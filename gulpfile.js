@@ -45,7 +45,16 @@ gulp.task("test:visual:update", function() {
       ],
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
-      sections: options.section
+      sections: options.section,
+      geminiOptions: {
+        browsers: {
+            chrome: {
+            browserName: 'chrome',
+            version: '37.0'
+            }
+        },
+        windowSize: '300x400'
+      }
     }))
     .pipe(gulp.dest(testDirPath + '/config'))  // Path to configuration and tests
 });
@@ -56,7 +65,16 @@ gulp.task("test:visual", function(done){
       configDir: testDirPath + '/config', // Path to configuration and tests
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
-      sections: options.section
+      sections: options.section,
+      geminiOptions: {
+        browsers: {
+            chrome: {
+            browserName: 'chrome',
+            version: '37.0'
+            }
+        },
+        windowSize: '300x400'
+      }
     }));
 });
 

@@ -6,6 +6,7 @@ var Gemini = require('gemini/api');
 var spawn = require('child_process').spawn;
 var path = require('path');
 var gutil = require('gulp-util');
+var _ = require('lodash');
 
 let removeDuplicates = (arr, newArr = []) => {
   arr.forEach(item => newArr.indexOf(item) < 0 && newArr.push(item));
@@ -19,19 +20,24 @@ var runPhantom = function() {
 };
 
 var getGemini = function(options) {
-    return new Gemini({
-        rootUrl: options.rootUrl,
-        projectRoot: './',
-        gridUrl: 'http://127.0.0.1:4444/wd/hub',
-        screenshotsDir: options.gridScreenshotsDir,
-        browsers: {
-          chrome: {
-            browserName: 'chrome',
-            version: '37.0'
-          }
-        },
-        windowSize: '1024x768'
-    });
+
+    var geminiOptions = {
+      rootUrl: options.rootUrl,
+      projectRoot: './',
+      gridUrl: 'http://127.0.0.1:4444/wd/hub',
+      screenshotsDir: options.gridScreenshotsDir,
+      browsers: {
+        chrome: {
+          browserName: 'chrome',
+          version: '37.0'
+        }
+      },
+      windowSize: '1024x768'
+    }
+    geminiOptions = _.merge(geminiOptions, options.geminiOptions);
+    console.log(geminiOptions)
+
+    return new Gemini(geminiOptions);
 }
 
 var normalize = function (options) {
