@@ -20,7 +20,7 @@ It is nice to have a Gulp task for it because you will need to remake the grid s
 ```js
 var gulp = require("gulp");
 
-var sc5StyleguideGemini = require('sc5-styleguide-visualtest');
+var visTest = require('sc5-styleguide-visualtest');
 var minimist = require('minimist');
 
 var knownOptions = {
@@ -30,9 +30,9 @@ var knownOptions = {
 
 var options = minimist(process.argv.slice(2), knownOptions);
 
-gulp.task("test:visual:update", ["test:visual:config"], function() {
+gulp.task("test:visual:update", function() {
   gulp.src('path/to/styleguide/outpurDir', { read: false })
-    .pipe(sc5StyleguideGemini.gather({
+    .pipe(visTest.gather({
       configDir: './tests/visual/config', // Path to configuration and tests
       excludePages: [
         '2.2.1', // Back icon is not shown in prod
@@ -62,7 +62,7 @@ Tests will compare the grid screenshots with the current view of your Style Guid
 ```js
 gulp.task("visual:test", function(done){
   gulp.src(styleGuidePath, { read: false })
-    .pipe(sc5StyleguideGemini.test({
+    .pipe(visTest.test({
       configDir: './tests/visual/config',
       gridScreenshotsDir: './tests/visual/grid-screenshots',
       rootUrl: 'http://127.0.0.1:8000/#',
