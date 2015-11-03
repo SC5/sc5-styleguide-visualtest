@@ -28,10 +28,15 @@ Styleguide 2
 Second block subsection
 
 markup:
-<div class="simple-block"></div>
+<div class="simple-block" onclick="this.className+=' simple-block_interacted'">
+</div>
 
 Styleguide 2.1
 */
+
+.simple-block_interacted {
+    background-color: blue;
+}
 
 /*
 Third block
