@@ -1,17 +1,6 @@
 var gemini = require('gemini');
 
-var examples = "<% EXAMPLES %>";
-
-var pages = [];
-examples.forEach(function(example) {
-  pages.push({
-    'name': example,
-    url: '/section/' + example + '/fullscreen'
-  });
-});
-
-pages.forEach(function(page) {
-
+module.exports = function(page) {
   gemini.suite(page.name, function(suite) {
       if (page.name === 'index') {
         suite.skip();
@@ -43,5 +32,4 @@ pages.forEach(function(page) {
       }
       suite.ignoreElements.apply(gemini, selectors);
   });
-
-});
+}

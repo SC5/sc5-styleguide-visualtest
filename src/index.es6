@@ -35,7 +35,6 @@ var getGemini = function(options) {
       windowSize: '1024x768'
     }
     geminiOptions = _.merge(geminiOptions, options.geminiOptions);
-    console.log(geminiOptions)
 
     return new Gemini(geminiOptions);
 }
@@ -183,7 +182,20 @@ module.exports.gather = function(options) {
       // If sections are not defined, rewrite whole file
     }
 
-    var testSource = fs.readFileSync(path.join(__dirname, './basic-test.js'), "utf8");
+    var testSource = fs.readFileSync(path.join(__dirname, './_basic-test.js'), "utf8");
+    [
+      './_core-test.js',
+      './_build-page-obj.js'
+    ].forEach((fileName) => {
+      var source = fs.readFileSync(path.join(__dirname, fileName), "utf8");
+      var file = new gutil.File({
+        base: path.join(__dirname),
+        cwd: __dirname,
+        path: path.join(__dirname, fileName),
+        contents: new Buffer(source)
+      });
+      this.push(file);
+    });
 
     var pagesJsonString = JSON.stringify(pages, null, 4);
 
