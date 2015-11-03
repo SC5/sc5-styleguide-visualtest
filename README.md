@@ -145,3 +145,68 @@ gulp  test:visual:update --section 1 --section 4.5
 ```
 gulp  test:visual --section 1 --section 3.3
 ```
+
+## Custom tests
+
+By default all the components are testing with the same suit. It waits the component to be rendered and then takes a
+picture.
+
+If you need some specific interactions or modifications for the test, you need to provide a custom test. In the options
+list the custom test files with `customTests`:
+
+```js
+gulp.task("test:visual:update", function() {
+  gulp.src('path/to/styleguide/outpurDir', { read: false })
+    .pipe(visTest.gather({
+      configDir: './tests/visual/config',
+      gridScreenshotsDir: './tests/visual/grid-screenshots',
+      rootUrl: 'http://mycompany.com/styleguide',
+      customTests: {
+        '2.1': './custom-test.js'
+      },
+      sections: options.section
+    }));
+});
+```
+
+The paths of the test files should be relative to `configDir`. Then, put the test files in there. The content should be
+like that:
+
+```js
+'use strict';
+
+var gemini = require('gemini');
+
+module.exports = function (page) {
+  gemini.suite(page.name, function (suite) {
+    suite.setUrl(page.url).setCaptureElements('body').capture('plain', function (actions, find) {
+
+      actions.waitForElementToShow('shadow-dom', 7000);
+      actions.wait(500);
+      // Put your actions here. For example, click on an element
+      actions.click('.simple-block');
+    });
+
+  });
+};
+```
+You can modify the test as much as needed (however, keep `module.exports = function (page) {` interface). But usually
+the only needed this is to provide more actions. You can find the full list of possible action in [documentation for
+Gemini](https://en.bem.info/tools/testing/gemini/testing/#available-actions).
+
+### Ignore some parts of the component
+
+With providing custom test you can ignore some parts of the components. For example, you can tune the test to ignore the
+picture which changes from time to time and never matches, or a blinking thing or such.
+
+```js
+module.exports = function (page) {
+  gemini.suite(page.name, function (suite) {
+    suite.setUrl(page.url).setCaptureElements('body').capture('plain', function (actions, find) {
+      ...
+      suite.ignoreElements(['.element-to-ignore', '#another-element-to-ignore']);
+    });
+
+  });
+};
+```
