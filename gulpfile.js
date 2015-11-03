@@ -46,6 +46,9 @@ gulp.task("test:visual:update", function() {
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      customTests: {
+        '2.1': '../../custom-tests/custom-test.js'
+      },
       geminiOptions: {
         browsers: {
             chrome: {
@@ -66,6 +69,9 @@ gulp.task("test:visual", function(done){
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      customTests: {
+        '2.1': '../../custom-tests/custom-test.js'
+      },
       geminiOptions: {
         browsers: {
             chrome: {
