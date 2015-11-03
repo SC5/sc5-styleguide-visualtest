@@ -1,4 +1,3 @@
-var coreTest = require('./_core-test');
 var buildPageObj = require('./_build-page-obj');
 
 var examples = "<% EXAMPLES %>";
@@ -8,6 +7,8 @@ examples.forEach(function(example) {
   pages.push(buildPageObj(example));
 });
 
+var testCode = require('<% TEST_PATH %>');
+
 pages.forEach((page) => {
-    coreTest(page);
+    testCode(page);
 });

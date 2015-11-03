@@ -209,11 +209,15 @@ module.exports.gather = function(options) {
     this.push(file);
 
     pages.forEach((page) => {
+        var coreTestPath = options.customTests && options.customTests[page] ? options.customTests[page] : "./_core-test";
+        var content = testSource.replace('"<% EXAMPLES %>"', `["${page}"]`);
+        content = content.replace('<% TEST_PATH %>', coreTestPath);
+
         var file = new gutil.File({
         base: path.join(__dirname),
         cwd: __dirname,
         path: path.join(__dirname, `./test_${page}.js`),
-        contents: new Buffer(testSource.replace('"<% EXAMPLES %>"', `["${page}"]`))
+        contents: new Buffer(content)
         });
         this.push(file);
     });
