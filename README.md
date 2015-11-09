@@ -41,7 +41,8 @@ gulp.task("test:visual:update", function() {
       gridScreenshotsDir: './tests/visual/grid-screenshots',
       rootUrl: 'http://mycompany.com/styleguide',
       sections: options.section
-    }));
+    }))
+    .pipe(gulp.dest('./tests/visual/config'));
 });
 ```
 
