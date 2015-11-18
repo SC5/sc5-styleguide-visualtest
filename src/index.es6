@@ -15,7 +15,7 @@ let removeDuplicates = (arr, newArr = []) => {
 
 var phantomProcess;
 var runPhantom = function() {
-    phantomProcess = spawn('phantomjs',  ['--webdriver', '4444', '--disk-cache', 'true'],  {setsid:true});
+    phantomProcess = spawn('phantomjs',  ['--webdriver', '4444', '--disk-cache', 'false'],  {setsid:true});
     phantomProcess.stdout.pipe(process.stdout);
 };
 
