@@ -46,6 +46,7 @@ gulp.task("test:visual:update", function() {
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      coreTest: '../../custom-tests/core-test.js',
       customTests: {
         '2.1': '../../custom-tests/custom-test.js'
       },
@@ -69,6 +70,7 @@ gulp.task("test:visual", function(done){
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      coreTest: '../../custom-tests/core-test.js',
       customTests: {
         '2.1': '../../custom-tests/custom-test.js'
       },
