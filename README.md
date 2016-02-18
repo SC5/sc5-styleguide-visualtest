@@ -195,6 +195,23 @@ You can modify the test as much as needed (however, keep `module.exports = funct
 the only needed this is to provide more actions. You can find the full list of possible action in [documentation for
 Gemini](https://en.bem.info/tools/testing/gemini/testing/#available-actions).
 
+### Custom core test
+
+If you need to provide changes for all the tests, it is easier to change the coreTest:
+
+```js
+gulp.task("test:visual:update", function() {
+  gulp.src('path/to/styleguide/outpurDir', { read: false })
+    .pipe(visTest.gather({
+      configDir: './tests/visual/config',
+      gridScreenshotsDir: './tests/visual/grid-screenshots',
+      rootUrl: 'http://mycompany.com/styleguide',
+      coreTest: './custom-core-test.js',
+      sections: options.section
+    }));
+});
+```
+
 ### Ignore some parts of the component
 
 With providing custom test you can ignore some parts of the components. For example, you can tune the test to ignore the
