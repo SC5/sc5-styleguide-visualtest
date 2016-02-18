@@ -209,7 +209,8 @@ module.exports.gather = function(options) {
     this.push(file);
 
     pages.forEach((page) => {
-        var coreTestPath = options.customTests && options.customTests[page] ? options.customTests[page] : "./_core-test";
+        var coreTestPath = options.coreTest || "./_core-test";
+        coreTestPath = options.customTests && options.customTests[page] ? options.customTests[page] : coreTestPath;
         var content = testSource.replace('"<% EXAMPLES %>"', `["${page}"]`);
         content = content.replace('<% TEST_PATH %>', coreTestPath);
 
