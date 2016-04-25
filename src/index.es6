@@ -23,13 +23,17 @@ var getGemini = function(options) {
 
     var geminiOptions = {
       rootUrl: options.rootUrl,
-      projectRoot: './',
+      system: {
+        projectRoot: './'
+      },
       gridUrl: 'http://127.0.0.1:4444/wd/hub',
       screenshotsDir: options.gridScreenshotsDir,
       browsers: {
-        chrome: {
-          browserName: 'chrome',
-          version: '37.0'
+        "chrome-latest": {
+          desiredCapabilities: {
+            browserName: 'chrome',
+            version: '37.0'
+          }
         }
       },
       windowSize: '1024x768'

@@ -61,7 +61,7 @@ package if you provide it.
 Tests will compare the grid screenshots with the current view of your Style Guide.
 
 ```js
-gulp.task("visual:test", function(done){
+gulp.task("test:visual", function(done){
   gulp.src(styleGuidePath, { read: false })
     .pipe(visTest.test({
       configDir: './tests/visual/config',
@@ -74,7 +74,7 @@ gulp.task("visual:test", function(done){
 
 Don't forget to have the server with StyleGuide running.
 
-After running `gulp visual:test` you will get output like this:
+After running `gulp test:visual` you will get output like this:
 
 ```
 ✓ 5.1-25 plain [chrome]
@@ -109,7 +109,7 @@ By default the plugin takes screenshots in desktop resolution. However you may p
 your own options and take screenshots in different configuration.
 
 ```js
-gulp.task("visual:test", function(done){
+gulp.task("test:visual", function(done){
   gulp.src(styleGuidePath, { read: false })
     .pipe(visTest.test({
       configDir: './tests/visual/config',
@@ -118,9 +118,11 @@ gulp.task("visual:test", function(done){
       sections: options.section,
       geminiOptions: {
         browsers: {
-          chrome: {
-            browserName: 'chrome',
-            version: '37.0'
+          "chrome-latest": {
+            desiredCapabilities: {
+              browserName: 'chrome',
+              version: '37.0'
+            }
           }
         },
         windowSize: '300x600'
