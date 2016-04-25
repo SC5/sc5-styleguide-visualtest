@@ -1,3 +1,7 @@
+## 1.6.0
+
+* Improvements upgraded gemini version
+
 ## 1.5.0
 
 * Possibility provide custom core test
