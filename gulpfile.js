@@ -52,10 +52,12 @@ gulp.task("test:visual:update", function() {
       },
       geminiOptions: {
         browsers: {
-            chrome: {
-            browserName: 'chrome',
-            version: '37.0'
+          "chrome-latest": {
+            desiredCapabilities: {
+              browserName: 'chrome',
+              version: '37.0'
             }
+          }
         },
         windowSize: '300x400'
       }
@@ -76,10 +78,12 @@ gulp.task("test:visual", function(done){
       },
       geminiOptions: {
         browsers: {
-            chrome: {
-            browserName: 'chrome',
-            version: '37.0'
+          "chrome-latest": {
+            desiredCapabilities: {
+              browserName: 'chrome',
+              version: '37.0'
             }
+          }
         },
         windowSize: '300x400'
       }
