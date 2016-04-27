@@ -7,7 +7,7 @@ module.exports = function (page) {
     if (page.name === 'index') {
       suite.skip();
     }
-    suite.setUrl(page.url).setCaptureElements('body').capture('plain', function (actions, find) {
+    suite.setUrl(page.url).setCaptureElements('shadow-dom').capture('plain', function (actions, find) {
 
       actions.waitForElementToShow('shadow-dom', 7000);
       actions.wait(2000);
