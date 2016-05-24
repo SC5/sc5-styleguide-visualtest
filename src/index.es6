@@ -93,7 +93,7 @@ module.exports.test = function(options) {
     runPhantom();
 
     // Clean report
-    fs.removeSync(options.reportDir);
+    fs.removeSync(options.reportDir + '/*');
 
     // Run tests and create reports
     var runTests = function() {
