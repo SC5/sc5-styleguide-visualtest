@@ -106,7 +106,7 @@ module.exports.test = function(options) {
       });
       runTestsPromise.done(result => {
         phantomProcess.kill('SIGTERM');
-        spawn('open', [`${options.reportDir}/index.html`])
+        spawn('open', [`${options.reportDir}/index.html`]).on('error', function() {});
       });
     };
     // TODO: remake with promises
