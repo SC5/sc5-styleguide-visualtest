@@ -1,3 +1,10 @@
+## 1.7.0
+
+* Do not break if gemini report could not be opened
+* Do not remove gemini-report folder but just its content
+
+Thanks to [Sascha Egerer](https://github.com/sascha-egerer) for these contributions.
+
 ## 1.6.0
 
 * Improvements upgraded gemini version
