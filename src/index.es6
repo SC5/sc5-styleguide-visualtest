@@ -15,7 +15,16 @@ let removeDuplicates = (arr, newArr = []) => {
 
 var phantomProcess;
 var runPhantom = function() {
-    phantomProcess = spawn('phantomjs',  ['--webdriver', '4444', '--disk-cache', 'false', '--ignore-ssl-errors', 'true'],  {setsid:true});
+    var phantomSource = require('phantomjs-prebuilt').path;
+
+    // If the path we're given by phantomjs is to a .cmd, it is pointing to a global copy on Windows.
+    // Using the cmd as the process to execute causes problems cleaning up the processes
+    // so we walk from the cmd to the phantomjs.exe and use that instead.
+    if(path.extname(phantomSource).toLowerCase() === '.cmd') {
+      phantomSource =  path.join(path.dirname(phantomSource), '//node_modules//phantomjs//lib//phantom//phantomjs.exe');
+    }
+
+    phantomProcess = spawn(phantomSource,  ['--webdriver', '4444', '--disk-cache', 'false', '--ignore-ssl-errors', 'true'],  {setsid:true});
     phantomProcess.stdout.pipe(process.stdout);
 };
 
