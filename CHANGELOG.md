@@ -1,3 +1,7 @@
+## 1.8.0
+
+* Improvements upgraded gemini version
+
 ## 1.7.0
 
 * Do not break if gemini report could not be opened
