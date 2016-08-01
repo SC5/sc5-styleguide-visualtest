@@ -241,7 +241,7 @@ module.exports.gather = function(options) {
 
       var testPaths = getTestPaths(options, pages);
 
-      gemini.gather(testPaths, {
+      gemini.update(testPaths, {
         reporters: ['flat'],
       })
       .done(result => {
