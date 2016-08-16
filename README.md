@@ -10,7 +10,6 @@ You need to have PhantomJS installed. After that:
 
 ```
 npm install --save-dev sc5-styleguide-visualtest
-npm install --save-dev --save-exact gemini@0.13.0 #needed for tests
 ```
 
 ## Taking the grid screenshots
