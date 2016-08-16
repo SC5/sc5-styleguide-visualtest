@@ -30,7 +30,7 @@
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "minimist": "^1.2.0",
-    "sc5-styleguide": "^0.3.37"
+    "sc5-styleguide": ">=0.3.37"
   },
   "dependencies": {
     "fs-extra": "^0.24.0",
