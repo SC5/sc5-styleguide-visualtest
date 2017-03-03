@@ -1,3 +1,7 @@
+## 1.9.1
+
+* Fixed dependencies
+
 ## 1.9.0
 
 * Improvements upgraded gemini version
