@@ -1,3 +1,7 @@
+## 1.10.0
+
+* Feature - selenium support added
+
 ## 1.9.1
 
 * Fixed dependencies
