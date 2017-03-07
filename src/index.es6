@@ -13,19 +13,35 @@ let removeDuplicates = (arr, newArr = []) => {
   return newArr;
 };
 
-var phantomProcess;
-var runPhantom = function() {
+var serverProcess;
+
+var runTestServer = function runTestServer(testServer) {
+
+  if (!testServer) {
+     testServer = 'phantom';
+  }
+
+  console.log('Test server:', testServer.toUpperCase());
+
+  // Run test server
+  if (testServer === 'phantom') {
     var phantomSource = require('phantomjs-prebuilt').path;
 
     // If the path we're given by phantomjs is to a .cmd, it is pointing to a global copy on Windows.
     // Using the cmd as the process to execute causes problems cleaning up the processes
     // so we walk from the cmd to the phantomjs.exe and use that instead.
-    if(path.extname(phantomSource).toLowerCase() === '.cmd') {
-      phantomSource =  path.join(path.dirname(phantomSource), '//node_modules//phantomjs//lib//phantom//phantomjs.exe');
+    if (path.extname(phantomSource).toLowerCase() === '.cmd') {
+      phantomSource = path.join(path.dirname(phantomSource), '//node_modules//phantomjs//lib//phantom//phantomjs.exe');
     }
 
-    phantomProcess = spawn(phantomSource,  ['--webdriver', '4444', '--disk-cache', 'false', '--ignore-ssl-errors', 'true'],  {setsid:true});
-    phantomProcess.stdout.pipe(process.stdout);
+    serverProcess = spawn(phantomSource, ['--webdriver', '4444', '--disk-cache', 'false', '--ignore-ssl-errors', 'true'], { setsid: true });
+    serverProcess.stdout.pipe(process.stdout);
+  }
+
+  if(testServer === 'selenium') {
+    serverProcess = spawn('selenium-standalone', ['start'], { setsid: true, detached:true });
+    serverProcess.stdout.pipe(process.stdout);
+  }
 };
 
 var getGemini = function(options) {
@@ -97,9 +113,9 @@ module.exports.test = function(options) {
   var test = function(file, enc, callback) {
 
     var gemini = getGemini(options);
-
-    // Run PhantomJs
-    runPhantom();
+   
+    // Run test server
+    runTestServer(options.testServer);
 
     // Clean report
     fs.removeSync(options.reportDir + '/*');
@@ -114,7 +130,7 @@ module.exports.test = function(options) {
         tempDir: options.reportDir
       });
       runTestsPromise.done(result => {
-        phantomProcess.kill('SIGTERM');
+        serverProcess.kill('SIGTERM');
         spawn('open', [`${options.reportDir}/index.html`]).on('error', function() {});
       });
     };
@@ -238,8 +254,8 @@ module.exports.gather = function(options) {
 
     var gemini = getGemini(options);
 
-    // Run PhantomJs
-    runPhantom();
+    // Run test server
+    runTestServer(options.testServer);
 
     // Clean screenshot
     if (!options.sections) { // only for full replacement
@@ -254,7 +270,7 @@ module.exports.gather = function(options) {
         reporters: ['flat'],
       })
       .done(result => {
-        phantomProcess.kill('SIGTERM');
+        serverProcess.kill('SIGTERM');
       });
     }
     // TODO: remake with promises
