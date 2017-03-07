@@ -33,8 +33,10 @@ var knownOptions = {
   'default': { 'section': false }
 }
 
-var options = minimist(process.argv.slice(2), knownOptions);
+/* test server options 'phantom' or 'selenium' */
+var testServer = 'phantom'; // default is phantom
 
+var options = minimist(process.argv.slice(2), knownOptions);
 gulp.task("test:visual:update", function() {
   gulp.src(styleguidePath, { read: false })
     .pipe(sc5StyleguideGemini.gather({
@@ -46,6 +48,7 @@ gulp.task("test:visual:update", function() {
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      testServer: testServer,
       coreTest: '../../custom-tests/core-test.js',
       customTests: {
         '2.1': '../../custom-tests/custom-test.js'
@@ -72,6 +75,7 @@ gulp.task("test:visual", function(done){
       gridScreenshotsDir: testDirPath + '/grid-screenshots',
       rootUrl: 'http://localhost:3000/',
       sections: options.section,
+      testServer: testServer,
       coreTest: '../../custom-tests/core-test.js',
       customTests: {
         '2.1': '../../custom-tests/custom-test.js'
