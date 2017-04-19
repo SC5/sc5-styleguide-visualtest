@@ -177,13 +177,15 @@ module.exports.gather = function(options) {
           }
           examples.push(section.reference);
         } else {
-          for(var m = 1;m<=section.modifiers.length;m++) {
+          section.modifiers.forEach(function (modifier) {
+            var modifierFileIdentifier = section.reference + '-' + modifier.className.replace(' ', '_');
+
             // Exclude pages
-            if (options.excludePages.indexOf(`${section.reference}-${m}`) !== -1) {
-              continue;
+            if (options.excludePages.indexOf(modifierFileIdentifier) !== -1) {
+                return;
             }
-            examples.push(`${section.reference}-${m}`);
-          }
+            examples.push(modifierFileIdentifier);
+          });
         }
       });
       return examples;
