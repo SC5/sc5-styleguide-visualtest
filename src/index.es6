@@ -130,6 +130,15 @@ module.exports.test = function(options) {
         tempDir: options.reportDir
       });
       runTestsPromise.done(result => {
+        serverProcess.on('close', () => {
+            setTimeout(function(){
+                var error = null;
+                if(result.failed){
+                    error = 'Error: ' + result.failed + ' tests failed';
+                }
+                callback(error);
+            }, 2000);
+        });
         serverProcess.kill('SIGTERM');
         spawn('open', [`${options.reportDir}/index.html`]).on('error', function() {});
       });
@@ -270,6 +279,11 @@ module.exports.gather = function(options) {
         reporters: ['flat'],
       })
       .done(result => {
+        serverProcess.on('close', () => {
+            setTimeout(function(){
+                callback();
+            }, 2000);
+        });
         serverProcess.kill('SIGTERM');
       });
     }
