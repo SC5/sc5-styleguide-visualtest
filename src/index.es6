@@ -53,16 +53,20 @@ var getGemini = function(options) {
       },
       gridUrl: 'http://127.0.0.1:4444/wd/hub',
       screenshotsDir: options.gridScreenshotsDir,
-      browsers: {
+      windowSize: '1024x768'
+    }
+
+    if(!options.geminiOptions.browsers || !Object.keys(options.geminiOptions.browsers).length){
+      geminiOptions.browsers = {
         "chrome-latest": {
           desiredCapabilities: {
             browserName: 'chrome',
             version: '37.0'
           }
         }
-      },
-      windowSize: '1024x768'
+      };
     }
+
     geminiOptions = _.merge(geminiOptions, options.geminiOptions);
 
     return new Gemini(geminiOptions);
@@ -113,7 +117,7 @@ module.exports.test = function(options) {
   var test = function(file, enc, callback) {
 
     var gemini = getGemini(options);
-   
+
     // Run test server
     runTestServer(options.testServer);
 
